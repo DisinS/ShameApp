@@ -1,10 +1,15 @@
 <resources>
+    <!-- Login & Register-->
     <string name="app_name">ShameApp</string>
     <string name="loginText">Login</string>
     <string name="registerText">Register</string>
     <string name="loginIfText">Login if you have an account</string>
     <string name="registerIfText">Register if you do not have an account</string>
+
+    <!-- Login -->
     <string name="search">Search</string>
+    <string name="toWatch">To watch</string>
+    <string name="watched">Watched</string>
 
     <string name="movies">Movies</string>
     <string name="people">People</string>

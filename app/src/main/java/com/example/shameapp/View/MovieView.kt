@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shameapp.Model.DataModels.CrewShowFolder.CrewShow
+import com.example.shameapp.Model.DataModels.FirebaseMovieTV
 import com.example.shameapp.Model.DataModels.MovieViewClass
 import com.example.shameapp.R
 import com.example.shameapp.ViewModel.Adapter.ActorAdapter
@@ -25,7 +26,6 @@ import com.example.shameapp.ViewModel.MovieViewModel
 import com.example.shameapp.ViewModel.TVViewModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -49,6 +49,8 @@ class MovieView : Fragment() {
     private var isToWatch = false
     private var showExist = false
 
+    private lateinit var typeOfMovie: Any
+
     private lateinit var showButtonAnimation : Animation
     private lateinit var hideButtonAnimation : Animation
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,9 +71,10 @@ class MovieView : Fragment() {
         //hideButtonAnimation = AnimationUtils.loadAnimation(context, R.anim.hide_animation)
 
         //checkSetting(args.movieInfo.ID)
-        var movieType = args.movieInfo.type
+        //var movieType = args.movieInfo.type
+        typeOfMovie = args.movieInfo.type
 
-        when (movieType) {
+        when (typeOfMovie) {
             "movie" -> {
                 mMovieViewModel.getMovieDetails(args.movieInfo.ID)
                     .observe(viewLifecycleOwner, Observer { item ->
@@ -209,12 +212,37 @@ class MovieView : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.containerButton.setOnClickListener {
-            Log.d("Guzik", "KLIK")
+        view.addToWatchedListButton.setOnClickListener {
+            val firebaseMovieTV = FirebaseMovieTV(
+                args.movieInfo.type,
+                args.movieInfo.ID,
+                movieTitle.text.toString(),
+                false,
+                true,
+            )
+            mMovieViewModel.addMovieTVtoFirebase(firebaseMovieTV)
+            mMovieViewModel.changeMovieTVListInFirebase(firebaseMovieTV)
+        }
+
+        view.addToToWatchListButton.setOnClickListener {
+            val firebaseMovieTV = FirebaseMovieTV(
+                args.movieInfo.type,
+                args.movieInfo.ID,
+                movieTitle.text.toString(),
+                true,
+                false,
+            )
+            mMovieViewModel.addMovieTVtoFirebase(firebaseMovieTV)
+            mMovieViewModel.changeMovieTVListInFirebase(firebaseMovieTV)
+
+
+
+            //Log.d("Guzik", "KLIK")
             //mMovieViewModel.addToWatchList()
-            //FirebaseDatabase.getInstance().reference.child("To watch list").child("MovieTV").setValue("abcd")//movieTitle.text.toString())
+            //FirebaseDatabase.getInstance().reference.child("To watch list").child(args.movieInfo.ID.toString()).setValue(movieTitle.text.toString())
+
             //FirebaseDatabase.getInstance().getReference().child("Add").setValue("abcdLOGIN")
-            Firebase.database.reference.child("Test").addValueEventListener(object:
+            /*Firebase.database.reference.child("Test").addValueEventListener(object:
                 ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     Log.d("Test", "Success")
@@ -223,19 +251,69 @@ class MovieView : Fragment() {
                 override fun onCancelled(error: DatabaseError) {
                     Log.d("Test", "Cancel")
                 }
-
-            })
-
-            Firebase.database.reference.child("Test").setValue("abcdLOGIN")
-
-            //Firebase.database.instance
-            //firebase.addGame(FirebaseGame(game.value!!.id, !isPlayed.value!!, isFav.value!!))
-
-            //val database = FirebaseDatabase.getInstance()
-            //val myRef = database.getReference("message")
-
-            //myRef.setValue("Hello, World!")
+            })*/
         }
+
+        /*view.removeFromListsButton.setOnClickListener {
+            val firebaseMovieTV = FirebaseMovieTV(
+                args.movieInfo.type,
+                args.movieInfo.ID,
+                movieTitle.text.toString(),
+                false,
+                false,
+            )
+            mMovieViewModel.deleteMovieTVFromFirebase(firebaseMovieTV)
+        }*/
+
+        //var list2 = ArrayList<FirebaseMovieTV>()
+
+        view.removeFromListsButton.setOnClickListener {
+
+            val list = mMovieViewModel.loadMovieTVList("To watch list")
+            Log.d("List","a ${list}")
+            /*Firebase.database.reference.addValueEventListener(object: ValueEventListener {
+                val list = mutableListOf<FirebaseMovieTV>()
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    // var value = snapshot.getValue(String::class.java)
+                    /*list.clear()
+                    for (row in snapshot.children){
+                        val newRow = row.getValue(FirebaseMovieTV::class.java)
+                        list.add(newRow!!)
+                    }
+                    Log.d("COS","e${list}")*/
+
+                    for (row in snapshot.child("uqm9BFIb1ZXz9oFVwLm1yd4mNF53").child("To watch list").child("movie").children){
+                        val newRow = row.getValue(FirebaseMovieTV::class.java)
+                        Log.d("COS","e${newRow}")
+                        list.add(newRow!!)
+                    }
+                    Log.d("COS","e${list2}")
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("Reading value","Failed")
+                }
+            })*/
+        }
+        /*
+        fun loadMovieTVList(){
+        firebaseDB.addValueEventListener(object: ValueEventListener{
+            val list = mutableListOf<FirebaseMovieTV>()
+            override fun onDataChange(snapshot: DataSnapshot) {
+               // var value = snapshot.getValue(String::class.java)
+                list.clear()
+                for (row in snapshot.children){
+                    val newRow = row.getValue(FirebaseMovieTV::class.java)
+                    list.add(newRow!!)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d("Reading value","Failed")
+            }
+        })
+    } */
     }
 
     companion object {

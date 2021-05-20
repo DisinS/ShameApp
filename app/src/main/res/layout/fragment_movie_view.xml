@@ -107,7 +107,7 @@
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/black"
+            android:background="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/movieRating">
@@ -224,69 +224,47 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
-        <TextView
-            android:id="@+id/appendVideo"
-            android:layout_width="match_parent"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addToToWatchListButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            android:text="Dołaczone wideo"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:layout_margin="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/ic_to_watch"
+            app:borderWidth="0dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/crewRecyclerView" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/movieVideosRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appendVideo" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:maxImageSize="36dp"
+            app:tint="@color/colorPrimary"></com.google.android.material.floatingactionbutton.FloatingActionButton>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/containerButton"
+            android:id="@+id/addToWatchedListButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/ic_watched"
+            android:visibility="visible"
+            app:borderWidth="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addToToWatchListButton"
+            app:maxImageSize="36dp"
+            app:tint="@color/colorPrimary"></com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/removeFromListsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             app:borderWidth="0dp"
-            android:backgroundTint="@color/black"
-            app:tint="@color/white"
-            android:src="@drawable/ic_baseline_add"
+            android:visibility="visible"
+            android:backgroundTint="@color/white"
+            app:tint="@color/colorPrimary"
+            android:src="@drawable/ic_remove"
             app:maxImageSize="36dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></com.google.android.material.floatingactionbutton.FloatingActionButton>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/favouriteButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:borderWidth="0dp"
-            android:visibility="invisible"
-            android:backgroundTint="@color/black"
-            app:tint="@null"
-            android:src="@drawable/ic_star"
-            app:maxImageSize="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/containerButton"></com.google.android.material.floatingactionbutton.FloatingActionButton>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/toWatchButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:borderWidth="0dp"
-            android:visibility="invisible"
-            android:backgroundTint="@color/black"
-            app:tint="@null"
-            android:src="@drawable/ic_eye"
-            app:maxImageSize="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/favouriteButton"></com.google.android.material.floatingactionbutton.FloatingActionButton>
+            app:layout_constraintTop_toBottomOf="@+id/addToWatchedListButton"></com.google.android.material.floatingactionbutton.FloatingActionButton>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

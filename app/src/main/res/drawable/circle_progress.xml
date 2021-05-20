@@ -3,7 +3,7 @@
     <item>
         <shape
             android:shape="oval">
-            <solid android:color="@color/black"></solid>
+            <solid android:color="@color/colorPrimary"></solid>
             <stroke
                 android:width="16dp"
                 android:color="@android:color/transparent" />
@@ -14,7 +14,7 @@
             android:shape="ring"
             android:thicknessRatio="16"
             android:useLevel="false">
-            <solid android:color="#DDD"></solid>
+            <solid android:color="@color/white"></solid>
         </shape>
     </item>
     <item>
@@ -25,7 +25,7 @@
                 android:shape="ring"
                 android:thicknessRatio="16"
                 android:useLevel="true">
-                <solid android:color="#008000"></solid>
+                <solid android:color="@color/black"></solid>
             </shape>
         </rotate>
     </item>
