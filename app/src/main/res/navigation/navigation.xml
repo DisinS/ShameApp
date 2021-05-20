@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.shameapp.View.MainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_searchResultsFragment"
+            app:destination="@id/searchResultsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_movieView"
+            app:destination="@id/movieView" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchResultsFragment"
+        android:name="com.example.shameapp.View.SearchResultsFragment"
+        android:label="SearchResultsFragment"
+        tools:layout="@layout/fragment_search_results">
+        <argument
+            android:name="searchQuery"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_searchResultsFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_searchResultsFragment_to_movieView"
+            app:destination="@id/movieView" />
+        <action
+            android:id="@+id/action_searchResultsFragment_to_personFragment"
+            app:destination="@id/personFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieView"
+        android:name="com.example.shameapp.View.MovieView"
+        android:label="MovieView" >
+        <action
+            android:id="@+id/action_movieView_to_personFragment"
+            app:destination="@id/personFragment" />
+        <action
+            android:id="@+id/action_movieView_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <argument
+            android:name="movieInfo"
+            app:argType="com.example.shameapp.Model.DataModels.HelperClass" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/personFragment"
+        android:name="com.example.shameapp.View.PersonFragment"
+        android:label="PersonFragment" >
+        <action
+            android:id="@+id/action_personFragment_to_movieView"
+            app:destination="@id/movieView" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+    </fragment>
+</navigation>

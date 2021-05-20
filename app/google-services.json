@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "405109658232",
+    "firebase_url": "https://shameapp-47327-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "shameapp-47327",
+    "storage_bucket": "shameapp-47327.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405109658232:android:4bb6b8a2c1c3d69d53d38d",
+        "android_client_info": {
+          "package_name": "com.example.shameapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "405109658232-9o3kag8grkug0l4idpcj9u0jqf22867k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfmwDWFNvrzUHtJRz1_KJOLW8J5w-6G1I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "405109658232-9o3kag8grkug0l4idpcj9u0jqf22867k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
