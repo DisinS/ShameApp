@@ -3,13 +3,26 @@ package com.example.shameapp.ViewModel.Adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.shameapp.Model.DataModels.CrewShowFolder.Cast
 import com.example.shameapp.Model.DataModels.FirebaseMovieTV
+import com.example.shameapp.Model.DataModels.HelperClass
+import com.example.shameapp.Model.DataModels.MovieViewClass
+import com.example.shameapp.Model.DataModels.SearchModelFolder.SearchResultListModel
 import com.example.shameapp.R
+import com.example.shameapp.View.MainFragment
+import com.example.shameapp.View.MainFragmentDirections
+import com.example.shameapp.ViewModel.MovieViewModel
+import com.example.shameapp.ViewModel.TVViewModel
+import kotlinx.android.synthetic.main.search_result_row.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ListAdapter(): RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
     private val imageSource: String = "https://image.tmdb.org/t/p/w500"
-    private var list = emptyList<FirebaseMovieTV>()
+    private var list = emptyList<MovieViewClass>()
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -17,7 +30,6 @@ class ListAdapter(): RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
         val view = MyViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.search_result_row, parent, false)
         )
-
         return view
     }
 
@@ -26,36 +38,35 @@ class ListAdapter(): RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        TODO("Not yet implemented")
-    }
-}
+        if(list[position].posterPath.isNullOrEmpty())
+            holder.itemView.itemImage.setImageResource(R.drawable.ic_baseline_movie_24)
+        else
+            bindImage(holder.itemView.itemImage, imageSource + list[position].posterPath)
 
-/*
-class FavouriteAdapter() : RecyclerView.Adapter<FavouriteAdapter.MyViewHolder>() {
-
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        var currentItem = favouriteList[position]
-        bindImage(holder.itemView.favouritePoster, imageSource + currentItem.posterPath)
-        holder.itemView.favouriteTitle.text = currentItem.title
-        holder.itemView.favouriteDescription.text = currentItem.movieDescription
-
-        if(currentItem.toWatch){
-            holder.itemView.labelIcon.setImageResource(R.drawable.ic_eye_true)
-        } else holder.itemView.labelIcon.visibility = View.GONE
+        holder.itemView.itemName.text = list[position].title
+        holder.itemView.itemOverview.text = list[position].movieDescription
+        holder.itemView.itemDate.visibility = View.GONE
+        val dateVals = list[position].releaseDate.split('-')
+        if(dateVals.size == 3){
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.YEAR, dateVals[0].toInt())
+            calendar.set(Calendar.MONTH, dateVals[1].toInt())
+            calendar.set(Calendar.DAY_OF_MONTH, dateVals[2].toInt())
+            holder.itemView.itemDate.text = SimpleDateFormat("dd MMMM YYYY", Locale.getDefault()).format(calendar.time)
+        } else
+            holder.itemView.itemDate.visibility = View.GONE
 
         holder.itemView.setOnClickListener {
-            var helperClass = HelperClass(currentItem.itemID, currentItem.type)
-            val action = FavouriteListDirections.actionFavouriteListToMovieView(helperClass, currentItem.title)
+            var helperClass = HelperClass(list[position].ID, "movie")
+            val action = MainFragmentDirections.actionMainFragmentToMovieView(helperClass, list[position].title)
             holder.itemView.findNavController().navigate(action)
         }
+
     }
 
-    fun setData(data: List<Show>) {
-        this.favouriteList = data
+    fun setData(data: List<MovieViewClass>) {
+        this.list = data
         notifyDataSetChanged()
     }
 }
 
-
-
- */

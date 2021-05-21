@@ -1,7 +1,6 @@
 package com.example.shameapp.ViewModel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,13 +10,12 @@ import com.example.shameapp.Model.API.Repository
 import com.example.shameapp.Model.DataModels.CrewShowFolder.CrewShow
 import com.example.shameapp.Model.DataModels.FirebaseMovieTV
 import com.example.shameapp.Model.DataModels.MovieDetailFolder.MovieDetail
-import com.example.shameapp.Model.FirebaseRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MovieViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: Repository = Repository(API())
-    val firebase = FirebaseRepository()
+    val firebase = FirebaseViewModel()
 
     fun getMovieDetails(id: Int) : LiveData<MovieDetail>{
         var movie = MutableLiveData<MovieDetail>()
@@ -53,9 +51,11 @@ class MovieViewModel(application: Application) : AndroidViewModel(application) {
         firebase.deleteMovieTV(movieTV)
     }
 
-    fun loadMovieTVList(listType: String): MutableList<FirebaseMovieTV> {
+    /*fun loadMovieTVList(listType:String){//}: MutableLiveData<List<Int>> {//callback: FirebaseCallback, listType: String){//}: MutableList<FirebaseMovieTV> {
 
-        Log.d("List3","a ${firebase.loadMovieTVList(listType)}")
-        return firebase.loadMovieTVList(listType)
-    }
+
+
+        //Log.d("List5","a ${firebase.loadMovieTVList(listType)}")
+        firebase.loadMovieTVList(listType)
+    }*/
 }

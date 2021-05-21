@@ -38,7 +38,8 @@
     <fragment
         android:id="@+id/movieView"
         android:name="com.example.shameapp.View.MovieView"
-        android:label="MovieView" >
+        android:label="MovieView"
+        tools:layout="@layout/fragment_movie_view">
         <action
             android:id="@+id/action_movieView_to_personFragment"
             app:destination="@id/personFragment" />
@@ -55,7 +56,8 @@
     <fragment
         android:id="@+id/personFragment"
         android:name="com.example.shameapp.View.PersonFragment"
-        android:label="PersonFragment" >
+        android:label="PersonFragment"
+        tools:layout="@layout/fragment_person_view">
         <action
             android:id="@+id/action_personFragment_to_movieView"
             app:destination="@id/movieView" />

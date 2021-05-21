@@ -5,7 +5,6 @@ package com.example.shameapp.View
 //import com.example.shameapp.ViewModel.ShowViewModel
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,13 +21,10 @@ import com.example.shameapp.Model.DataModels.MovieViewClass
 import com.example.shameapp.R
 import com.example.shameapp.ViewModel.Adapter.ActorAdapter
 import com.example.shameapp.ViewModel.Adapter.bindImage
+import com.example.shameapp.ViewModel.FirebaseViewModel
 import com.example.shameapp.ViewModel.MovieViewModel
 import com.example.shameapp.ViewModel.TVViewModel
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.fragment_movie_view.*
 import kotlinx.android.synthetic.main.fragment_movie_view.view.*
 
@@ -40,19 +36,11 @@ class MovieView : Fragment() {
     private val args by navArgs<MovieViewArgs>()
     private lateinit var mMovieViewModel: MovieViewModel
     private lateinit var mTVViewModel: TVViewModel
-
-    //private lateinit var mShowViewModel: ShowViewModel
+    private lateinit var firebaseViewModel: FirebaseViewModel
 
     private lateinit var movieClass: MovieViewClass
-    var buttonContainerClicked : Boolean  = false;
-    private var isFavourite = false
-    private var isToWatch = false
-    private var showExist = false
 
     private lateinit var typeOfMovie: Any
-
-    private lateinit var showButtonAnimation : Animation
-    private lateinit var hideButtonAnimation : Animation
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -64,14 +52,8 @@ class MovieView : Fragment() {
         val view = inflater.inflate(R.layout.fragment_movie_view, container, false)
         mMovieViewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
         mTVViewModel = ViewModelProvider(this).get(TVViewModel::class.java)
+        firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
 
-        //mShowViewModel = ViewModelProvider(this).get(ShowViewModel::class.java)
-
-        //showButtonAnimation = AnimationUtils.loadAnimation(context, R.anim.show_animation)
-        //hideButtonAnimation = AnimationUtils.loadAnimation(context, R.anim.hide_animation)
-
-        //checkSetting(args.movieInfo.ID)
-        //var movieType = args.movieInfo.type
         typeOfMovie = args.movieInfo.type
 
         when (typeOfMovie) {
@@ -98,112 +80,6 @@ class MovieView : Fragment() {
             }
         }
 
-
-        /*mMovieViewModel.movieTV.observe(viewLifecycleOwner, Observer {
-            mMovieViewModel.getMovieDetails(args.movieInfo.ID)
-        })*/
-
-        /*view.favouriteButton.setOnClickListener {
-            if (::movieClass.isInitialized) {
-                mShowViewModel.checkExist(movieClass.ID)
-                    .observe(viewLifecycleOwner, Observer { item ->
-                        if(item > 0){
-                            if (isFavourite) {
-                                //USUWAMY
-                                if(!!isFavourite && !isToWatch){
-                                    mShowViewModel.deleteFavourite(movieClass.ID)
-                                }
-                                else{
-                                    mShowViewModel.changeFavourite(movieClass.ID, false)
-                                }
-                                isFavourite = false
-                                favouriteButton.setImageResource(R.drawable.ic_star)
-                                Toast.makeText(
-                                    requireContext(),
-                                    "${movieClass.title} ${getString(R.string.removedFromList)} ${getString(R.string.favourite)}",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            } else {
-                                //DODAJEMY
-                                mShowViewModel.changeFavourite(movieClass.ID, true)
-                                favouriteButton.setImageResource(R.drawable.ic_star_true)
-                                isFavourite = true
-                                Toast.makeText(
-                                    requireContext(),
-                                    "${movieClass.title} ${getString(R.string.addedToList)} ${getString(R.string.favourite)}",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
-                        }
-                        else{
-                            //NIEISTNIEJE
-                            mShowViewModel.addFavourite(movieClass.createFavourite(!isFavourite, isToWatch))
-                            favouriteButton.setImageResource(R.drawable.ic_star_true)
-                            isFavourite = true
-                            Toast.makeText(
-                                requireContext(),
-                                "${movieClass.title} ${getString(R.string.addedToList)} ${getString(R.string.favourite)}",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-
-                    })
-            }
-        }*/
-
-        /*view.toWatchButton.setOnClickListener {
-            if (::movieClass.isInitialized) {
-                mShowViewModel.checkExist(movieClass.ID)
-                    .observe(viewLifecycleOwner, Observer { item ->
-                        if(item > 0){
-                            if (isToWatch) {
-                                //USUWAMY
-                                if(!!isToWatch && !isFavourite){
-                                    mShowViewModel.deleteFavourite(movieClass.ID)
-                                }
-                                else{
-                                    mShowViewModel.changeToWatch(movieClass.ID, false)
-                                }
-                                isToWatch = false
-                                toWatchButton.setImageResource(R.drawable.ic_eye)
-                                Toast.makeText(
-                                    requireContext(),
-                                    "${movieClass.title} ${getString(R.string.removedFromList)} ${getString(R.string.toWatch)}",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            } else {
-                                //DODAJEMY
-                                mShowViewModel.changeToWatch(movieClass.ID, true)
-                                toWatchButton.setImageResource(R.drawable.ic_eye_true)
-                                isToWatch = true
-                                Toast.makeText(
-                                    requireContext(),
-                                    "${movieClass.title} ${getString(R.string.addedToList)} ${getString(R.string.toWatch)}",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
-                        }
-                        else{
-                            //NIEISTNIEJE
-                            mShowViewModel.addFavourite(movieClass.createFavourite(isFavourite, !isToWatch))
-                            toWatchButton.setImageResource(R.drawable.ic_eye_true)
-                            isToWatch = true
-                            Toast.makeText(
-                                requireContext(),
-                                "${movieClass.title} ${getString(R.string.addedToList)} ${getString(R.string.toWatch)}",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-
-                    })
-            }
-        }*/
-
-        /*view.containerButton.setOnClickListener {
-            buttonContainerClicked = !buttonContainerClicked;
-            ChangeButtonsStyle(buttonContainerClicked)
-        }*/
-
         CompleteCrewList()
 
         return view
@@ -220,8 +96,10 @@ class MovieView : Fragment() {
                 false,
                 true,
             )
-            mMovieViewModel.addMovieTVtoFirebase(firebaseMovieTV)
-            mMovieViewModel.changeMovieTVListInFirebase(firebaseMovieTV)
+            firebaseViewModel.addMovieTV(firebaseMovieTV)
+            firebaseViewModel.changeMovieTVList(firebaseMovieTV)
+            //mMovieViewModel.addMovieTVtoFirebase(firebaseMovieTV)
+            //mMovieViewModel.changeMovieTVListInFirebase(firebaseMovieTV)
         }
 
         view.addToToWatchListButton.setOnClickListener {
@@ -232,29 +110,13 @@ class MovieView : Fragment() {
                 true,
                 false,
             )
-            mMovieViewModel.addMovieTVtoFirebase(firebaseMovieTV)
-            mMovieViewModel.changeMovieTVListInFirebase(firebaseMovieTV)
-
-
-
-            //Log.d("Guzik", "KLIK")
-            //mMovieViewModel.addToWatchList()
-            //FirebaseDatabase.getInstance().reference.child("To watch list").child(args.movieInfo.ID.toString()).setValue(movieTitle.text.toString())
-
-            //FirebaseDatabase.getInstance().getReference().child("Add").setValue("abcdLOGIN")
-            /*Firebase.database.reference.child("Test").addValueEventListener(object:
-                ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    Log.d("Test", "Success")
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.d("Test", "Cancel")
-                }
-            })*/
+            firebaseViewModel.addMovieTV(firebaseMovieTV)
+            firebaseViewModel.changeMovieTVList(firebaseMovieTV)
+            //mMovieViewModel.addMovieTVtoFirebase(firebaseMovieTV)
+            //mMovieViewModel.changeMovieTVListInFirebase(firebaseMovieTV)
         }
 
-        /*view.removeFromListsButton.setOnClickListener {
+        view.removeFromListsButton.setOnClickListener {
             val firebaseMovieTV = FirebaseMovieTV(
                 args.movieInfo.type,
                 args.movieInfo.ID,
@@ -262,59 +124,12 @@ class MovieView : Fragment() {
                 false,
                 false,
             )
-            mMovieViewModel.deleteMovieTVFromFirebase(firebaseMovieTV)
-        }*/
-
-        //var list2 = ArrayList<FirebaseMovieTV>()
-
-        view.removeFromListsButton.setOnClickListener {
-
-            val list = mMovieViewModel.loadMovieTVList("To watch list")
-            Log.d("List","a ${list}")
-            /*Firebase.database.reference.addValueEventListener(object: ValueEventListener {
-                val list = mutableListOf<FirebaseMovieTV>()
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    // var value = snapshot.getValue(String::class.java)
-                    /*list.clear()
-                    for (row in snapshot.children){
-                        val newRow = row.getValue(FirebaseMovieTV::class.java)
-                        list.add(newRow!!)
-                    }
-                    Log.d("COS","e${list}")*/
-
-                    for (row in snapshot.child("uqm9BFIb1ZXz9oFVwLm1yd4mNF53").child("To watch list").child("movie").children){
-                        val newRow = row.getValue(FirebaseMovieTV::class.java)
-                        Log.d("COS","e${newRow}")
-                        list.add(newRow!!)
-                    }
-                    Log.d("COS","e${list2}")
-
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.d("Reading value","Failed")
-                }
-            })*/
+            //mMovieViewModel.deleteMovieTVFromFirebase(firebaseMovieTV)
+            firebaseViewModel.deleteMovieTV(firebaseMovieTV)
         }
-        /*
-        fun loadMovieTVList(){
-        firebaseDB.addValueEventListener(object: ValueEventListener{
-            val list = mutableListOf<FirebaseMovieTV>()
-            override fun onDataChange(snapshot: DataSnapshot) {
-               // var value = snapshot.getValue(String::class.java)
-                list.clear()
-                for (row in snapshot.children){
-                    val newRow = row.getValue(FirebaseMovieTV::class.java)
-                    list.add(newRow!!)
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.d("Reading value","Failed")
-            }
-        })
-    } */
     }
+
+
 
     companion object {
         fun newInstance() = MovieView()
@@ -361,67 +176,6 @@ class MovieView : Fragment() {
             movieRatingText.text = "${rating}%"
         movieRating.progress = rating
     }
-
-    /*private fun checkSetting(ID: Int) {
-        if (::mShowViewModel.isInitialized) {
-            mShowViewModel.checkExist(ID)
-                .observe(viewLifecycleOwner, Observer { item ->
-                    if (item > 0) {
-                        //ISTNIEJE
-                        showExist = true
-                        mShowViewModel.checkFavourite(ID).observe(viewLifecycleOwner, Observer { value->
-                            //Log.d("komunikat", value.toString())
-                            if(value){
-                                isFavourite = true
-                                favouriteButton.setImageResource(R.drawable.ic_star_true)
-                            }
-                            else
-                                favouriteButton.setImageResource(R.drawable.ic_star)
-                        })
-
-                        mShowViewModel.checkToWatch(ID).observe(viewLifecycleOwner, Observer { value->
-                            if(value){
-                                isToWatch = true
-                                toWatchButton.setImageResource(R.drawable.ic_eye_true)
-                            }
-                            else
-                                toWatchButton.setImageResource(R.drawable.ic_eye)
-                        })
-
-                    } else {
-                        //NIEISTNIEJE
-                        showExist = false
-                        favouriteButton.setImageResource(R.drawable.ic_star)
-                        toWatchButton.setImageResource(R.drawable.ic_eye)
-                    }
-                })
-        }
-    }*/
-
-    /*private fun ChangeButtonsStyle(clicked: Boolean){
-        if(clicked){
-            //Pokaz
-            favouriteButton.visibility = View.VISIBLE
-            toWatchButton.visibility = View.VISIBLE
-
-            favouriteButton.startAnimation(showButtonAnimation)
-            toWatchButton.startAnimation(showButtonAnimation)
-
-            favouriteButton.isClickable = true
-            toWatchButton.isClickable = true
-        }
-        else{
-            //Schowaj
-            favouriteButton.visibility = View.INVISIBLE
-            toWatchButton.visibility = View.INVISIBLE
-
-            favouriteButton.startAnimation(hideButtonAnimation)
-            toWatchButton.startAnimation(hideButtonAnimation)
-
-            favouriteButton.isClickable = false
-            toWatchButton.isClickable = false
-        }
-    }*/
 
     private fun CompleteCrewList(){
         when(args.movieInfo.type){

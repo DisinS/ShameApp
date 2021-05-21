@@ -4,15 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import com.example.shameapp.R
-import com.example.shameapp.View.MainActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
@@ -29,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
 
         buttonLogin.setOnClickListener {
             when {
-                TextUtils.isEmpty(loginEmailAddress.text.toString().trim { it <= ' ' }) -> {
+                TextUtils.isEmpty(loginEmailEdit.text.toString().trim { it <= ' ' }) -> {
                     Toast.makeText(
                         this@LoginActivity,
                         "Please enter e-mail",
@@ -37,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
                     ).show()
                 }
 
-                TextUtils.isEmpty(loginPassword.text.toString().trim { it <= ' ' }) -> {
+                TextUtils.isEmpty(registreEmailEdit.text.toString().trim { it <= ' ' }) -> {
                     Toast.makeText(
                         this@LoginActivity,
                         "Please enter password",
@@ -45,8 +40,8 @@ class LoginActivity : AppCompatActivity() {
                     ).show()
                 }
                 else -> {
-                    val email: String = loginEmailAddress.text.toString().trim { it <= ' ' }
-                    val password: String = loginPassword.text.toString().trim { it <= ' ' }
+                    val email: String = loginEmailEdit.text.toString().trim { it <= ' ' }
+                    val password: String = registreEmailEdit.text.toString().trim { it <= ' ' }
 
                     FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener{ task ->

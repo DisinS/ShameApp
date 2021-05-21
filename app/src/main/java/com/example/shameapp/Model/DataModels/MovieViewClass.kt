@@ -48,8 +48,4 @@ public class MovieViewClass {
         }
         return types.toString()
     }
-
-    /*fun createFavourite(isFavourite: Boolean, isToWatch: Boolean) : Show{
-        return Show(0, this.ID, this.type, this.posterPath, this.backgroundPath, this.title, this.tagline, this.releaseDate, this.movieType, this.movieDescription, isFavourite, isToWatch)
-    }*/
 }

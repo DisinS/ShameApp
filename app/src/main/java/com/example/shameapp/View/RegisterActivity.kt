@@ -4,8 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import com.example.shameapp.R
 import com.google.android.gms.tasks.OnCompleteListener
@@ -21,7 +19,7 @@ class RegisterActivity : AppCompatActivity() {
 
         buttonRegister.setOnClickListener{
             when {
-                TextUtils.isEmpty(registerEmailAddress.text.toString().trim{ it <= ' '}) -> {
+                TextUtils.isEmpty(registerEmailEdit.text.toString().trim{ it <= ' '}) -> {
                     Toast.makeText(
                         this@RegisterActivity,
                         "Please enter e-mail",
@@ -29,7 +27,7 @@ class RegisterActivity : AppCompatActivity() {
                     ).show()
                 }
 
-                TextUtils.isEmpty(registerPassword.text.toString().trim{ it <= ' '}) -> {
+                TextUtils.isEmpty(registerPasswordEdit.text.toString().trim{ it <= ' '}) -> {
                     Toast.makeText(
                         this@RegisterActivity,
                         "Please enter password",
@@ -37,7 +35,7 @@ class RegisterActivity : AppCompatActivity() {
                     ).show()
                 }
 
-                TextUtils.isEmpty(passwordRepeat.text.toString().trim{ it <= ' '}) -> {
+                TextUtils.isEmpty(registerPasswordRepeatEdit.text.toString().trim{ it <= ' '}) -> {
                     Toast.makeText(
                         this@RegisterActivity,
                         "Please enter password",
@@ -46,9 +44,9 @@ class RegisterActivity : AppCompatActivity() {
                 }
 
                 else -> {
-                    val email: String = registerEmailAddress.text.toString().trim{ it <= ' '}
-                    val password: String = registerPassword.text.toString().trim{ it <= ' '}
-                    val passwordRepeat: String = passwordRepeat.text.toString().trim{ it <= ' '}
+                    val email: String = registerEmailEdit.text.toString().trim{ it <= ' '}
+                    val password: String = registerPasswordEdit.text.toString().trim{ it <= ' '}
+                    val passwordRepeat: String = registerPasswordRepeatEdit.text.toString().trim{ it <= ' '}
 
                     if (password != passwordRepeat){
                         Toast.makeText(
