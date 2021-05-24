@@ -15,12 +15,11 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-const val API_key: String = "?api_key=7424044fa22991835d835d229b30d0d7"  // poprzednie "?api_key=fbfd2d53b7504d595ee9c450e52d4026"
-//Zostawmy angielski bo wszystko działa, w polskim pokazuje z połowe rzeczy
+const val API_key: String = "?api_key=7424044fa22991835d835d229b30d0d7"
 const val LANGUAGE: String = "en-US"
 
 interface API {
-    //API: fbfd2d53b7504d595ee9c450e52d4026
+    //API: 7424044fa22991835d835d229b30d0d7
     //Zapytania: https://developers.themoviedb.org/3/getting-started/introduction
     //JSON na klasy w kotlin: https://www.json2kotlin.com/
     //Przetwarzanie obrazów: https://developers.themoviedb.org/3/getting-started/images
@@ -68,25 +67,24 @@ interface API {
         @Path("tvID") tvID: Int
     ): Response<CrewShow>
 
-    /*Wyszukiwanie filmów
-    query => fraza do wyszukania
-    */
+    //Wyszukiwanie filmów
+    //query => fraza do wyszukania
     @GET("search/movie${API_key}&language=${LANGUAGE}")
     suspend fun searchMovies(
         @Query("query") query: String,
         @Query("page") page: Int
     ): Response<SearchMovie>
-    /*Wyszukiwanie osób
-    query => fraza do wyszukania
-    */
+
+    //Wyszukiwanie osób
+    //query => fraza do wyszukania
     @GET("search/person${API_key}&language=${LANGUAGE}")
     suspend fun searchPeople(
         @Query("query") query: String,
         @Query("page") page: Int
     ): Response<SearchPeople>
-    /*Wyszukiwanie seriali
-    query => fraza do wyszukania
-    */
+
+    //Wyszukiwanie seriali
+    //query => fraza do wyszukania
     @GET("search/tv${API_key}&language=${LANGUAGE}")
     suspend fun searchTv(
         @Query("query") query: String,

@@ -3,26 +3,19 @@ package com.example.shameapp.ViewModel.Adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shameapp.Model.DataModels.CrewShowFolder.Cast
 import com.example.shameapp.Model.DataModels.FirebaseMovieTV
 import com.example.shameapp.Model.DataModels.HelperClass
-import com.example.shameapp.Model.DataModels.MovieViewClass
-import com.example.shameapp.Model.DataModels.SearchModelFolder.SearchResultListModel
 import com.example.shameapp.R
-import com.example.shameapp.View.MainFragment
 import com.example.shameapp.View.MainFragmentDirections
-import com.example.shameapp.ViewModel.MovieViewModel
-import com.example.shameapp.ViewModel.TVViewModel
 import kotlinx.android.synthetic.main.search_result_row.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ListAdapter(): RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
     private val imageSource: String = "https://image.tmdb.org/t/p/w500"
-    private var list = emptyList<MovieViewClass>()
+    private var list = emptyList<FirebaseMovieTV>()
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -44,8 +37,8 @@ class ListAdapter(): RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
             bindImage(holder.itemView.itemImage, imageSource + list[position].posterPath)
 
         holder.itemView.itemName.text = list[position].title
-        holder.itemView.itemOverview.text = list[position].movieDescription
-        holder.itemView.itemDate.visibility = View.GONE
+        holder.itemView.itemOverview.text = list[position].description
+
         val dateVals = list[position].releaseDate.split('-')
         if(dateVals.size == 3){
             val calendar = Calendar.getInstance()
@@ -57,14 +50,14 @@ class ListAdapter(): RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
             holder.itemView.itemDate.visibility = View.GONE
 
         holder.itemView.setOnClickListener {
-            var helperClass = HelperClass(list[position].ID, "movie")
+            var helperClass = HelperClass(list[position].id, list[position].type)
             val action = MainFragmentDirections.actionMainFragmentToMovieView(helperClass, list[position].title)
             holder.itemView.findNavController().navigate(action)
         }
 
     }
 
-    fun setData(data: List<MovieViewClass>) {
+    fun setData(data: List<FirebaseMovieTV>) {
         this.list = data
         notifyDataSetChanged()
     }

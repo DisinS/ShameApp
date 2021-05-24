@@ -93,6 +93,4 @@ class RegisterActivity : AppCompatActivity() {
             onBackPressed()
         }
     }
-
-
 }

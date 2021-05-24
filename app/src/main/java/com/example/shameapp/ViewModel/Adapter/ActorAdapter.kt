@@ -8,9 +8,6 @@ import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shameapp.Model.DataModels.CrewShowFolder.Cast
-import com.example.shameapp.Model.DataModels.CrewShowFolder.CrewShow
-import com.example.shameapp.Model.DataModels.HelperClass
-//import com.example.shameapp.View.FavouriteListDirections
 import com.example.shameapp.View.MovieViewDirections
 import com.example.shameapp.R
 import kotlinx.android.synthetic.main.actor_row.view.*

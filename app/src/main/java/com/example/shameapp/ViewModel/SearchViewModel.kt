@@ -1,9 +1,6 @@
 package com.example.shameapp.ViewModel
 
 import android.app.Application
-import android.graphics.Color
-import android.graphics.drawable.Drawable
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

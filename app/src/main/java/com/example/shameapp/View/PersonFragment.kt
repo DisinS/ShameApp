@@ -12,7 +12,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shameapp.ViewModel.Adapter.MovieTVAdapter
 import com.example.shameapp.ViewModel.Adapter.bindImage
-import com.example.shameapp.Model.DataModels.PersonMoviesTVsFolder.PersonMovieTVCredits
 import com.example.shameapp.R
 import com.example.shameapp.ViewModel.PersonViewModel
 import kotlinx.android.synthetic.main.fragment_person_view.*

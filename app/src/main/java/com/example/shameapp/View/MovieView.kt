@@ -1,14 +1,10 @@
 package com.example.shameapp.View
 
-//import com.example.shameapp.Model.DataModels.MovieVideosFolder.Results
-
-//import com.example.shameapp.ViewModel.ShowViewModel
-
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -24,7 +20,6 @@ import com.example.shameapp.ViewModel.Adapter.bindImage
 import com.example.shameapp.ViewModel.FirebaseViewModel
 import com.example.shameapp.ViewModel.MovieViewModel
 import com.example.shameapp.ViewModel.TVViewModel
-import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.fragment_movie_view.*
 import kotlinx.android.synthetic.main.fragment_movie_view.view.*
 
@@ -88,48 +83,54 @@ class MovieView : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.addToWatchedListButton.setOnClickListener {
-            val firebaseMovieTV = FirebaseMovieTV(
-                args.movieInfo.type,
-                args.movieInfo.ID,
-                movieTitle.text.toString(),
-                false,
-                true,
-            )
-            firebaseViewModel.addMovieTV(firebaseMovieTV)
-            firebaseViewModel.changeMovieTVList(firebaseMovieTV)
-            //mMovieViewModel.addMovieTVtoFirebase(firebaseMovieTV)
-            //mMovieViewModel.changeMovieTVListInFirebase(firebaseMovieTV)
-        }
-
         view.addToToWatchListButton.setOnClickListener {
             val firebaseMovieTV = FirebaseMovieTV(
                 args.movieInfo.type,
                 args.movieInfo.ID,
-                movieTitle.text.toString(),
+                movieClass.title,
                 true,
                 false,
+                movieClass.movieDescription,
+                movieClass.releaseDate,
+                movieClass.posterPath
             )
             firebaseViewModel.addMovieTV(firebaseMovieTV)
             firebaseViewModel.changeMovieTVList(firebaseMovieTV)
-            //mMovieViewModel.addMovieTVtoFirebase(firebaseMovieTV)
-            //mMovieViewModel.changeMovieTVListInFirebase(firebaseMovieTV)
+            Toast.makeText(activity,"Added to list of 'To watch' movies!", Toast.LENGTH_SHORT).show()
+        }
+
+        view.addToWatchedListButton.setOnClickListener {
+            val firebaseMovieTV = FirebaseMovieTV(
+                args.movieInfo.type,
+                args.movieInfo.ID,
+                movieClass.title,
+                false,
+                true,
+                movieClass.movieDescription,
+                movieClass.releaseDate,
+                movieClass.posterPath
+            )
+            Log.d("MovieViewClass", "${movieClass}")
+            firebaseViewModel.addMovieTV(firebaseMovieTV)
+            firebaseViewModel.changeMovieTVList(firebaseMovieTV)
+            Toast.makeText(activity,"Added to list of 'Watched' movies!", Toast.LENGTH_SHORT).show()
         }
 
         view.removeFromListsButton.setOnClickListener {
             val firebaseMovieTV = FirebaseMovieTV(
                 args.movieInfo.type,
                 args.movieInfo.ID,
-                movieTitle.text.toString(),
+                movieClass.title,
                 false,
                 false,
+                movieClass.movieDescription,
+                movieClass.releaseDate,
+                movieClass.posterPath
             )
-            //mMovieViewModel.deleteMovieTVFromFirebase(firebaseMovieTV)
             firebaseViewModel.deleteMovieTV(firebaseMovieTV)
+            Toast.makeText(activity,"Remove from lists!", Toast.LENGTH_SHORT).show()
         }
     }
-
-
 
     companion object {
         fun newInstance() = MovieView()

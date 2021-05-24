@@ -4,8 +4,6 @@ import com.example.shameapp.Model.DataModels.MovieDetailFolder.Genres
 import com.example.shameapp.Model.DataModels.MovieDetailFolder.MovieDetail
 import com.example.shameapp.Model.DataModels.TVDetailFolder.TV
 
-//import com.example.moviebase.Model.Database.Show
-
 public class MovieViewClass {
     val ID: Int
     val type: String

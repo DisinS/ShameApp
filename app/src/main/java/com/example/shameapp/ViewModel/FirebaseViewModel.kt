@@ -28,7 +28,6 @@ class FirebaseViewModel : ViewModel() {
         listOfToWatchMovieTVs.value = list
     }
 
-
     fun getAllUsersMovieTV() = firebaseDB.child(auth.currentUser!!.uid)
 
     fun addMovieTV(movieTV: FirebaseMovieTV){
@@ -50,7 +49,7 @@ class FirebaseViewModel : ViewModel() {
         getAllUsersMovieTV().child(toWatch).child(movieTV.type).child(movieTV.id.toString()).removeValue()
     }
 
-    fun downloadMovieTVList(){ //usunąć argument i dodać drugą liste
+    fun downloadMovieTVList(){
         getAllUsersMovieTV().addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val listToWatch = mutableListOf<FirebaseMovieTV>()
@@ -59,26 +58,24 @@ class FirebaseViewModel : ViewModel() {
                 for (row in snapshot.child(toWatch).child("movie").children){
                     val newRow = row.getValue(FirebaseMovieTV::class.java)
                     if (newRow != null)
-                        listToWatch.add(newRow!!)
+                        listToWatch.add(newRow)
                 }
                 for (row in snapshot.child(toWatch).child("tv").children){
                     val newRow = row.getValue(FirebaseMovieTV::class.java)
                     if (newRow != null)
-                        listToWatch.add(newRow!!)
+                        listToWatch.add(newRow)
                 }
-                Log.d("To watch list", "${listToWatch}")
 
                 for (row in snapshot.child(watched).child("movie").children){
                     val newRow = row.getValue(FirebaseMovieTV::class.java)
                     if (newRow != null)
-                        listToWatch.add(newRow!!)
+                        listOfWatched.add(newRow)
                 }
                 for (row in snapshot.child(watched).child("tv").children){
                     val newRow = row.getValue(FirebaseMovieTV::class.java)
                     if (newRow != null)
-                        listToWatch.add(newRow!!)
+                        listOfWatched.add(newRow)
                 }
-                Log.d("Watched list", "${listOfWatched}")
 
                 setToWatchMovieTVList(listToWatch)
                 setWatchedMovieTVList(listOfWatched)
